@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Mosquitto Websockets</title>
+    <script src="./js/mqttws31.js" type="text/javascript"></script>
+    <script src="./js/jquery.min.js" type="text/javascript"></script>
+    <script src="./js/config.js" type="text/javascript"></script>
+    <script src="./js/mian.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+   
+    config = {
+    		host: '172.16.192.103',
+    		port: 9001,
+    		topic: '#',
+    		useTLS: false,
+    		userName: null,
+    		password: null,
+    		cleansession: true
+    }
+
+ 	function button_onclick(){
+		var topic = $('#sendtopic').val();
+		var message = $('#textsend').val();
+		if(topic==''||message=='')
+		{
+			alert("topic or message is not null");
+			return;
+		}
+		sendMessage(topic, message);
+        $('#ws').prepend('<li>' + 'push: ' +  topic + ' ---> ' + message+ '</li>');
+	};
+	
+	function messageCallback(topic, payload){
+		$('#ws').prepend('<li>' + 'sub: ' + topic + ' ---> ' + payload + '</li>');
+	}
+
+	function fialdMessageCallback(errorMessage, type){
+		$('#status').val("Connection failed: " + errorMessage + ": ",  type);
+	}
+    </script>
+  </head>
+  <body>
+    <h1>Mosquitto Websockets</h1>
+    <div>
+        
+		publish to <input type='text' id='sendtopic' /> text <input type='text' id='textsend' size="30"/>
+        Status: <input type='button' value="send" id='btn' onclick="javascript:button_onclick()"/></div>
+	    <ul id='ws' style="font-family: 'Courier New', Courier, monospace;"></ul>
+  </body>
+</html>
