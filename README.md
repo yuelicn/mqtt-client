@@ -16,16 +16,17 @@ examples
   config = {
     		host: '172.16.192.10X',
     		port: 9001,
-    		topic: '#',
+    		topic: '#',client.connect();
     		useTLS: false,
     		userName: null,
     		password: null,
     		cleansession: true
     }
     ／／连接消息服务
-    MQTTconnect();
+    var client = new websocket(config);
+    client.connect();
     ／／发送消息函数
-    sendMessage(topic, message);
+    client.sendMessage(topic, message);
     ／／ 订阅消息回调函数
     function messageCallback(topic, payload){
 		／／业务处理
